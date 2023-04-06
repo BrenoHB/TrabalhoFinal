@@ -1,3 +1,33 @@
+<?php
+session_start();
+    
+if(isset($_SESSION['username'])){
+    header('Location: painel.php');
+    exit;
+}
+    include('banco.php');
+
+    $nome = $_POST['nome'];
+    $senha  =$_POST['senha'];
+
+    $sql = $pdo->prepare('select nome, senha FROM user WHERE nome = :nome AND senha = :senha');
+    $senha = md5($senha);
+    $sql->bindParam(":senha", $senha);
+    $sql->bindParam(":nome", $nome);
+    $sql->execute();
+
+    if($sql->rowCount() == 1){
+        
+      $_SESSION['username'] = $nome;
+      echo "parabens, deu certo!";
+
+    }else{
+        echo "algo deu errado!";
+        
+    }
+
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,25 +65,22 @@
     </style>
 </head>
 <body>
-    <h1>Fazer Login</h1>
+    
     <br>
     <div class="box">
         <div class="form">
-            <form method="post" action="banco.php">
+        <h1>Fazer Login</h1>
+            <form method="post" action="">
                 <br>
                 <label for="user">Usuario: </label><br>
                 <input type="text" name="nome" id="user"><br>
                 <label for="pass">Senha: </label><br>
                 <input type="password" name="senha" id="pass"><br>
-                <button type="submit">enviar</button>
+                <button type="submit">Login</button>
+                <a href="cadastrarusuario.php">Ou cadastre aqui seu usuario!</a>
                 <br>
             </form>
         </div>
-    </div>
-    <div class="php">
-    <?php
-
-    ?>
     </div>
 </body>
 </html>
