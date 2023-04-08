@@ -1,32 +1,33 @@
 <?php
 session_start();
-    
-if(isset($_SESSION['username'])){
+
+require_once('banco.php');
+
+if (isset($_SESSION['username'])) {
     header('Location: painel.php');
     exit;
 }
-    include('banco.php');
 
+if (isset($_POST['nome']) && !empty($_POST['nome'])) {
     $nome = $_POST['nome'];
-    $senha  =$_POST['senha'];
+    $senha = $_POST['senha'];
+    $senha = md5($senha);
 
     $sql = $pdo->prepare('select nome, senha FROM user WHERE nome = :nome AND senha = :senha');
-    $senha = md5($senha);
     $sql->bindParam(":senha", $senha);
     $sql->bindParam(":nome", $nome);
     $sql->execute();
+    $row = $sql->fetch();
 
-    if($sql->rowCount() == 1){
-        
-      $_SESSION['username'] = $nome;
-      echo "parabens, deu certo!";
-
-    }else{
-        echo "algo deu errado!";
-        
+    if ($row) {
+        $_SESSION['username'] = $nome;
+        header('Location: painel.php');
+        exit;
+    } else {
+        echo "Algo deu errado!";
     }
-
-    ?>
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,6 +64,8 @@ if(isset($_SESSION['username'])){
             align-items: center;
         }
     </style>
+
+    <link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
     
@@ -70,16 +73,23 @@ if(isset($_SESSION['username'])){
     <div class="box">
         <div class="form">
         <h1>Fazer Login</h1>
+
             <form method="post" action="">
                 <br>
+
                 <label for="user">Usuario: </label><br>
                 <input type="text" name="nome" id="user"><br>
+
                 <label for="pass">Senha: </label><br>
                 <input type="password" name="senha" id="pass"><br>
+
                 <button type="submit">Login</button>
                 <a href="cadastrarusuario.php">Ou cadastre aqui seu usuario!</a>
+
                 <br>
+
             </form>
+
         </div>
     </div>
 </body>
