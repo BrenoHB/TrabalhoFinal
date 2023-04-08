@@ -28,69 +28,64 @@ if (isset($_POST['nome']) && !empty($_POST['nome'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
     <title>CRUD</title>
-    <style>
-        .form{
-            width: 300px;
-            height: 300px;
-            background: #fff;
-        }
-        .box{
-            width: 100vw;
-            height: 100vh;
-            background: ;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-        body {
-            margin: 0px;
-        }
-        .php{
-            width: 100vw;
-            height: 100vh;
-            background: #6C7A89;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-
-    <link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-    
-    <br>
-    <div class="box">
-        <div class="form">
-        <h1>Fazer Login</h1>
 
-            <form method="post" action="">
-                <br>
-
-                <label for="user">Usuario: </label><br>
-                <input type="text" name="nome" id="user"><br>
-
-                <label for="pass">Senha: </label><br>
-                <input type="password" name="senha" id="pass"><br>
-
-                <button type="submit">Login</button>
-                <a href="cadastrarusuario.php">Ou cadastre aqui seu usuario!</a>
-
-                <br>
-
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="d-flex justify-content-center align-items-center card login">
+        <div class="card-header">
+            LOGIN
+        </div>
+        <div class="card-body">
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nome</label>
+                    <input type="text" class="form-control" name='nome' id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nome">
+                    <small id="emailHelp" class="form-text text-muted">Insira seu Nome de usuário</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Senha</label>
+                    <input type="password" class="form-control" name='senha' id="exampleInputPassword1" placeholder="Senha">
+                    <br>
+                </div>
+                <button type="submit" class=" btn btn-danger">Login</button>
+                <button type="" class="btn btn-danger" href="cadastrarusuario.php">Criar login</button>
             </form>
-
         </div>
     </div>
+</div>
+
 </body>
+
+
+
+<style>
+
+    .login{
+        border-radius:20px;
+    }
+    body{
+        background-color: black;
+    }
+    .card-body{
+        
+        font-weight: bold;
+        color: black;
+    }
+    .card-header{
+        background-color: 	#8B0000;
+        font-weight: bold;
+        color: white;
+        
+    }
+</style>
+
 </html>
