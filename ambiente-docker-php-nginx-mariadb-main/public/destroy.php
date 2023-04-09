@@ -1,6 +1,7 @@
 <?php
-session_start();
-session_destroy();
-header('Location: index.php');
-exit(); 
+
+session_start(); //inicia sessao
+session_destroy(); //destroi a sessao
+header('Location: index.php'); // retorna para index
+exit(); // para o codigo aqui
 ?>

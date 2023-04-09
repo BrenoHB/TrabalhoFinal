@@ -1,3 +1,32 @@
+<?php
+session_start(); //inicia sessao (embora nao seja usada)
+
+    include('banco.php');//conecta no banco
+
+    if(isset($_POST['nome']) && isset($_POST['senha'])){ //valida se chaves nome e senha estao setadas
+    $nome = $_POST['nome']; //atribui valor da chave para variavel
+    $senha  =$_POST['senha'];//atribui valor da chave para variavel
+    $senha = md5($senha); //criptografa senha
+
+    $sql = $pdo->prepare('SELECT COUNT(*) FROM user WHERE nome = :nome'); //prepara consulta
+    $sql->bindParam(":nome", $nome); //binda parametro para consulta segura
+    $sql->execute(); //executa
+    $exists = $sql->fetchColumn(); //aramazena coluna nome em exist
+
+    if ($exists>0) { //valida se existe mais de um usuario
+        echo "Usuário já foi registrado!";
+    } else { 
+        $sql = $pdo->prepare('INSERT INTO user VALUES (NULL, :nome, :senha)'); //prepara consulta
+        $sql->bindParam(":senha", $senha);//binda paramentros para consulta segura
+        $sql->bindParam(":nome", $nome);
+        $sql->execute();//executa
+        
+        header('Location: index.php');//retorna para inndex
+        exit();//para condigo aqui
+    }
+}
+
+    ?>
 
 
 <!DOCTYPE html>
@@ -7,97 +36,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD</title>
-    <style>
-        .form{
-            width: 300px;
-            height: 300px;
-            background: #fff;
-        }
-        .box{
-            width: 100vw;
-            height: 100vh;
-            background: ;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-        body {
-            margin: 0px;
-        }
-        .php{
-            width: 100vw;
-            height: 100vh;
-            background: #6C7A89;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 </head>
 <body>
     
-    <br>
-    <div class="box">
-        <div class="form">
-        <h1>Fazer cadastro:</h1>
-            <form method="post" action="">
-                <br>
-                <label for="user">Usuario: </label><br>
-                <input type="text" name="nome" id="user"><br>
-                <label for="pass">Senha: </label><br>
-                <input type="password" name="senha" id="pass"><br>
-                <input type="submit" value="cadastrar usuario">
-                <br>
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="d-flex justify-content-center align-items-center card login">
+        <div class="card-header">
+           CADASTRO
+        </div>
+        <div class="card-body">
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nome</label>
+                    <input type="text" class="form-control" name='nome' id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nome">
+                    <small id="emailHelp" class="form-text text-muted">Insira seu Nome de usuário</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Senha</label>
+                    <input type="password" class="form-control" name='senha' id="exampleInputPassword1" placeholder="Senha">
+                    <br>
+                </div>
+                <button type="submit" class=" btn btn-danger">Cadastro</button>
             </form>
         </div>
     </div>
-    <div class="php">
-    <?php
-    include('banco.php');
-/*
---------------------------------------------------------------------------------------------------------------------------*
-Achei comico a situação que passei abaixo:
+</div>
 
-passei por volta de 2horas procurando a solução para um problema no meu codigo, os usuarios estavam
-sendo inseridos mesmo que com o mesmo nome de outros ja existentes.
-Quebrei a cabeça tentando achar algum problema nesta pagina, aí pintou a ideia na minha cabeça, o que sera que 
-tem no banco.php? (até entao eu só lembrava que tinha a conexão).
-
-$senha = md5($_POST['senha']);
-$sql = $pdo->prepare("INSERT INTO user (nome, senha) VALUES (?, ?)");
-$sql->execute(array($_POST['nome'],$senha));
-
-isso estava dentro do arquivo banco.php kkkkkkkkkk, por fim eu adicionei a propriedade no banco de dados que nao permite
-itens identicos na tabela user coluna nome.
-ALTER TABLE user ADD CONSTRAINT nome_unico UNIQUE (nome);
-
-__________________________________________________________________________________________________________________________*
-*/
-    if(isset($_POST['nome']) && isset($_POST['senha'])){
-    $nome = $_POST['nome'];
-    $senha  =$_POST['senha'];
-    $senha = md5($senha);
-
-$sql = $pdo->prepare('SELECT COUNT(*) FROM user WHERE nome = :nome');
-$sql->bindParam(":nome", $nome);
-$sql->execute();
-$exists = $sql->fetchColumn();
-
-if ($exists>0) {
-    echo "Usuário já foi registrado!";
-} else {
-    
-    $sql = $pdo->prepare('INSERT INTO user VALUES (NULL, :nome, :senha)');
-    $sql->bindParam(":senha", $senha);
-    $sql->bindParam(":nome", $nome);
-    $sql->execute();
-}
-    }else{
-        echo"insira novamente o nome de ususario";
+    <style>
+        body{
+            background-color:black;
+        }
+        .card-header{
+        background-color: 	#8B0000;
+        font-weight: bold;
+        color: white;
+        
     }
-    ?>
-    </div>
+    </style>
 </body>
 </html>

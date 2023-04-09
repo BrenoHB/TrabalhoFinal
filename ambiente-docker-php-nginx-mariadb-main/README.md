@@ -7,7 +7,7 @@
 
 ## Docker
 
-Crie um arquivo `.env` com o conteúdo de `.env-sample`.
+Crie um arquivo `.env` com o conteï¿½do de `.env-sample`.
 
 ### Buildar os Containers:
 
@@ -25,7 +25,7 @@ Crie um arquivo `.env` com o conteúdo de `.env-sample`.
 
 `docker exec -it mariadb bash`
 
-### Acessar aplicação:
+### Acessar aplicaï¿½ï¿½o:
 
 `localhost:8888`
 
@@ -38,3 +38,22 @@ Crie um arquivo `.env` com o conteúdo de `.env-sample`.
 ## Requerir pacote:
 
 `docker-compose run --rm php-fpm composer require autor/pacote`
+
+
+
+
+
+## TABELAS USADAS NO PROJETO: 
+## executar no terminal mariaDB com user root, senha mariadb;
+CREATE TABLE user (
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(80) NOT NULL,
+  senha VARCHAR(120) NOT NULL
+);
+
+CREATE TABLE filme (
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(120) NOT NULL,
+  duracao VARCHAR(120) NOT NULL,
+  descricao VARCHAR(150)
+);

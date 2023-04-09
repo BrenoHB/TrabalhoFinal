@@ -1,19 +1,19 @@
 <?php
-session_start();
-if(!isset($_session['nome'])){
-
-}
+require_once('banco.php'); //conecta no banco
 
 
-require_once('banco.php');
+include('session.php'); //valida sessao
+$session = new poo;//valida sessao
+$session->session();//valida sessao
 
-$id = $_GET['ID'];
 
-$sql = $pdo->prepare('DELETE FROM filme WHERE id = :id');
-$sql->bindParam(':id',$id);
 
-$sql->execute();
+$id = $_GET['ID']; //recebe ID pela URL
 
-header("Location: painel.php");
+$sql = $pdo->prepare('DELETE FROM filme WHERE id = :id'); //prepara consulta
+$sql->bindParam(':id',$id); //binda parametro para consulta segura
+$sql->execute(); //executa
+header("Location: index.php"); //retorna para header
+exit();//para o codigo aqui
 
-?>
+    ?>

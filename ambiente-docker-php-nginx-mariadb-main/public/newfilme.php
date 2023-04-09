@@ -1,22 +1,26 @@
 <?php
-require_once('banco.php');
+require_once('banco.php'); //conecta no banco
+include('session.php');//valida sessao
+$session = new poo;// valida sessao
+$session->session();// valida sessao
 
-if(isset($_POST['nome'])){
+if(isset($_POST['nome'])){//testa se cahve nome ta setada
 
   $nome = $_POST['nome'];
   $duracao = $_POST['duracao'];
   $descricao = $_POST['descricao'];
   
 
-  $sql=$pdo->prepare("INSERT INTO filme (nome, duracao, descricao) VALUES (:nome, :duracao, :descricao)");
-  $sql->bindParam(':nome', $nome);
+  $sql=$pdo->prepare("INSERT INTO filme (nome, duracao, descricao) VALUES (:nome, :duracao, :descricao)"); //prepara consulta
+  $sql->bindParam(':nome', $nome); //binda parametro para consulta segura
   $sql->bindParam(':duracao', $duracao);
   $sql->bindParam(':descricao', $descricao);
  
-  $sql->execute();
+  $sql->execute(); //executa consulta
 
-  header('Location: painel.php');
+  header('Location: painel.php'); //volta para painel
 }
+
 ?>
 
 
@@ -32,8 +36,12 @@ if(isset($_POST['nome'])){
 <body>
 
 
-
+<div class="card-header">
+           ADICIONAR FILME
+        </div>
+        <br>
 <div class='m-5 d-flex justify-content-center align-items-center d-block'>
+
   <form method='POST' action = ''>
     <div class='form-row'>
       <div class='form-group'>
@@ -54,6 +62,20 @@ if(isset($_POST['nome'])){
   </form>
 </div>
 
+  <style>
+    .card-header{
+      font-weight: bold;
+      background-color: #8B0000;
+      color:white;
     
+      text-align:center;
+    }
+    body{
+      font-weight: bold;
+      background-color: black;
+      color:white;
+    }
+
+  </style>
 </body>
 </html>

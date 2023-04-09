@@ -1,30 +1,29 @@
 <?php
-session_start();
 
-require_once('banco.php');
+require_once('banco.php'); // conecta no banco
 
-if (isset($_SESSION['username'])) {
+session_start();//inicia sessao
+
+if (isset($_SESSION['nome'])) { //verifica se a sessao ja foi setada, se sim encaminha para proxima pagina
     header('Location: painel.php');
     exit;
 }
 
-if (isset($_POST['nome']) && !empty($_POST['nome'])) {
+if (isset($_POST['nome']) && !empty($_POST['nome'])) {//valida o POST nome e SENHA, para garantir que nao estejam faltando
     $nome = $_POST['nome'];
     $senha = $_POST['senha'];
-    $senha = md5($senha);
+    $senha = md5($senha); //criptografa
 
-    $sql = $pdo->prepare('select nome, senha FROM user WHERE nome = :nome AND senha = :senha');
-    $sql->bindParam(":senha", $senha);
+    $sql = $pdo->prepare('select nome, senha FROM user WHERE nome = :nome AND senha = :senha');//prepara para executar comando SQL
+    $sql->bindParam(":senha", $senha);//binda nome e senha
     $sql->bindParam(":nome", $nome);
-    $sql->execute();
-    $row = $sql->fetch();
+    $sql->execute();//executa 
+    $row = $sql->fetch();//$row recebe todos os valores de colunas da execucao anterior
 
     if ($row) {
-        $_SESSION['username'] = $nome;
-        header('Location: painel.php');
+        $_SESSION['nome'] = $row['nome'];//atribui o nome da sessao o valor nome do banco;
+        header('Location: painel.php');// direciona para painel.php
         exit;
-    } else {
-        echo "Algo deu errado!";
     }
 }
 ?>
@@ -45,7 +44,7 @@ if (isset($_POST['nome']) && !empty($_POST['nome'])) {
             LOGIN
         </div>
         <div class="card-body">
-            <form action="" method="post">
+            <form action="" method="post"> 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Nome</label>
                     <input type="text" class="form-control" name='nome' id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nome">
@@ -57,8 +56,10 @@ if (isset($_POST['nome']) && !empty($_POST['nome'])) {
                     <br>
                 </div>
                 <button type="submit" class=" btn btn-danger">Login</button>
-                <button type="" class="btn btn-danger" href="cadastrarusuario.php">Criar login</button>
+              
+</p>
             </form>
+            <button class="btn btn-lg btn-secundary btn-block text-white bg-dark" type="button" onclick="location='cadastrarusuario.php'">Cadastre-se</button>
         </div>
     </div>
 </div>
@@ -85,6 +86,11 @@ if (isset($_POST['nome']) && !empty($_POST['nome'])) {
         font-weight: bold;
         color: white;
         
+    }
+    .bg-dark{
+        align-items: left;
+        display:flex;
+        font-size: 12px;
     }
 </style>
 
