@@ -49,7 +49,7 @@ if(isset($_POST['nome'])){//testa se cahve nome ta setada
         <input type='text' class='form-control' name='nome' id='inputEmail4'>
       </div>
       <div class='form-group'>
-        <label for='inputPassword4'>duracao</label>
+        <label for='inputPassword4'>Duração (use 00:00:00)</label>
         <input type='text' pattern='^\d{2}:\d{2}:\d{2}$' class='form-control' name='duracao' id='inputPassword4'>
       </div>
     </div>
